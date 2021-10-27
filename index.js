@@ -3,6 +3,7 @@ var cors = require('cors')
 const app = express();
 
 app.use(cors())
+app.use(express.json());
 
 const port = 5000;
 
@@ -38,7 +39,7 @@ const users = [
     }]
 
 app.get('/users', (req, res) => {
-    console.log(req.query);
+    // console.log(req.query);
     const search = req.query.search;
     // use query parameter 
     const searchResult = users.filter(user => user.name.toLowerCase().includes(search));
@@ -48,6 +49,16 @@ app.get('/users', (req, res) => {
     else {
         res.send(users);
     }
+})
+
+// app. Method 
+app.post('/users', (req, res) => {
+    const newUser = req.body;
+    newUser.id = users.length;
+    users.push(newUser);
+    console.log('hitting the post', req.body);
+    // res.send(JSON.stringify(newUser));
+    res.json(newUser);
 })
 
 // dynamic api 
